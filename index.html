@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Meal For Your Ingredient</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+  <link rel = "stylesheet" href = "style.css">
+</head>
+<body>
+  
+  <div class = "container">
+    <div class = "meal-wrapper">
+      <a href="land.html" h1 class="title">
+        <button>Home</button></a></h1>
+      <div class = "meal-search">
+        <h2 class = "title">Find Meals For Your Ingredients</h2>
+        <blockquote>“ Food is symbolic of love when words are inadequate. ”<br>
+          <cite>- Alan D. Wolfelt</cite>
+        </blockquote>
+        <button id="signOutButton" class = "signOut">Sign Out</button>
+
+        <div class = "meal-search-box">
+          <input type = "text" class = "search-control" placeholder="Enter an ingredient" id = "search-input">
+          <button type = "submit" class = "search-btn btn" id = "search-btn">
+            <i class = "fas fa-search"></i>
+          </button>
+        </div>
+        <div class = "meal-result">
+          <h2 class = "title">Your Search Results :</h2>
+          <div id= "meal"></div>
+        </div>
+      </div>
+      <div class = "meal-details">
+        <!-- recipe close btn -->
+        <button type = "button" class = "btn recipe-close-btn" id = "recipe-close-btn">
+          <i class = "fas fa-times"></i>
+        </button>
+        <!-- meal content -->
+        <div class = "meal-details-content">
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src = "script.js"></script>
+
+  <script type = "module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-app.js";
+    import {
+      getAuth,
+      signOut
+    //Update the below URL with the appropriate version if necessary.
+    } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBo21o7pBRnhjoudMtwvOMT-ySAAJPhOQg",
+      authDomain: "auth-95f94.firebaseapp.com",
+      projectId: "auth-95f94",
+      storageBucket: "auth-95f94.appspot.com",
+      messagingSenderId: "879956627496",
+      appId: "1:879956627496:web:d0bb192275750e101ca51d"
+      };
+
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const signOutButton = document.querySelector("#signOutButton");
+      const userSignOut = async() => {
+      await signOut(auth);
+      window.location.href = "auth.html";}
+      signOutButton.addEventListener('click', userSignOut);
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication is Fun</title>
+    <link rel="stylesheet" href="authstyle.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+</head>
+<body>
+    <div id="authForm" class = "login-form">
+        <div class = "text">
+            Sign Up or Sign In
+        </div>
+
+        <div class = "field">
+        <div class="fas fa-envelope"></div>
+        <input type="email" placeholder = "Username" id="userEmail">
+        </div>
+
+        <div class = "field">
+        <div class="fas fa-lock"></div>
+        <input type="password" placeholder = "Password" id="userPassword">
+        </div>
+        <button id="signUpButton">Sign Up</button>
+        <button id="signInButton">Sign In</button>
+    </div>
+    </div>
+
+    <script type="module">
+        //Update the below URL with the appropriate version if necessary.
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-app.js";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+//Update the below URL with the appropriate version if necessary.
+} from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
+
+
+// INSERT YOUR FIREBASE CONFIG OBJECT HERE
+const firebaseConfig = {
+apiKey: "AIzaSyBo21o7pBRnhjoudMtwvOMT-ySAAJPhOQg",
+authDomain: "auth-95f94.firebaseapp.com",
+projectId: "auth-95f94",
+storageBucket: "auth-95f94.appspot.com",
+messagingSenderId: "879956627496",
+appId: "1:879956627496:web:d0bb192275750e101ca51d"
+};
+
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const userEmail = document.querySelector("#userEmail");
+const userPassword = document.querySelector("#userPassword");
+const authForm = document.querySelector("#authForm");
+const signUpButton = document.querySelector("#signUpButton");
+const signInButton = document.querySelector("#signInButton");
+const signOutButton = document.querySelector("#signOutButton");
+
+const userSignUp = async() => {
+    const signUpEmail = userEmail.value;
+    const signUpPassword = userPassword.value;
+    createUserWithEmailAndPassword(auth, signUpEmail, signUpPassword)
+    .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        alert("Your account has been created!");
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode + errorMessage)
+    })
+}
+
+const userSignIn = async() => {
+    const signInEmail = userEmail.value;
+    const signInPassword = userPassword.value;
+    signInWithEmailAndPassword(auth, signInEmail, signInPassword)
+    .then((userCredential) => {
+        const user = userCredential.user;
+        alert("You have signed in successfully!");
+    })
+    .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode + errorMessage)
+        alert("incorrect details or account does not exist")
+    })
+}
+
+const checkAuthState = async() => {
+    onAuthStateChanged(auth, user => {
+        if(user) {
+            authForm.style.display = 'none';
+            window.location.href = "index.html";
+        }
+        else {
+            authForm.style.display = 'block';
+        }
+    })
+}
+
+checkAuthState();
+
+signUpButton.addEventListener('click', userSignUp);
+signInButton.addEventListener('click', userSignIn);
+    </script>
+</body>
+</html>
